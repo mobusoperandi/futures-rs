@@ -228,10 +228,11 @@ pub trait SinkExt<Item>: Sink<Item> {
         self,
         item: Item,
         // std::pin::Pin<Box<dyn futures::Future<Output = ()>>>
-    ) -> Send<'static, Self> {
-        async move {
-            sender.send(value).await.unwrap();
-        }
+    ) -> Send<'static, Self, Item>
+    where
+        Self: Unpin + Sized,
+    {
+        assert_future::<Result<(), Self::Error>, _>(Send::new(self, item))
     }
 
     /// A future that completes after the given item has been received
