@@ -224,6 +224,17 @@ pub trait SinkExt<Item>: Sink<Item> {
         assert_future::<Result<(), Self::Error>, _>(Send::new(self, item))
     }
 
+
+    fn into_send<T: 'static>(
+        self,
+        value: T,
+    ) -> Send<'static, Self> //std::pin::Pin<Box<dyn futures::Future<Output = ()>>> {
+        async move {
+            sender.send(value).await.unwrap();
+        }
+        .boxed_local()
+    }
+
     /// A future that completes after the given item has been received
     /// by the sink.
     ///
