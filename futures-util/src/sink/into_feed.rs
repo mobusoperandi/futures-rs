@@ -6,16 +6,17 @@ use futures_core::task::{Context, Poll};
 use futures_sink::Sink;
 
 /// Future for the [`into_feed`](super::SinkExt::into_feed) method.
-#[derive(Debug)]
-#[must_use = "futures do nothing unless you `.await` or poll them"]
-pub struct IntoFeed<Si: ?Sized, Item> {
-    sink: Si,
-    item: Option<Item>,
-}
+// #[derive(Debug)]
+// #[must_use = "futures do nothing unless you `.await` or poll them"]
+// pub struct IntoFeed<Si: ?Sized, Item> {
+//     sink: Si,
+//     item: Option<Item>,
+// }
 
 fn playground() {
     struct G<T>(T);
-    struct H<'a>(&'a i32);
+
+    struct NotUnpin<'a>(&'a i32);
 
 
     type Gn = G<i32>;
@@ -23,7 +24,9 @@ fn playground() {
     fn take_unpin<T: Unpin>(unpin: T) {}
     let a = &mut 5;
     take_unpin(G(1));
-    take_unpin(G(async{ *a + 4}));
+    // take_unpin(G(async{ *a + 4}));
+    take_unpin(a);
+    take_unpin(NotUnpin(&1));
 }
 
 // // Pinning is never projected to children

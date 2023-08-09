@@ -36,10 +36,10 @@ mod err_into;
 pub use self::err_into::SinkErrInto;
 
 mod into_feed;
-pub use self::into_feed::IntoFeed;
+// pub use self::into_feed::IntoFeed;
 
 mod into_send;
-pub use self::into_send::IntoSend;
+// pub use self::into_send::IntoSend;
 
 mod map_err;
 pub use self::map_err::SinkMapErr;
@@ -238,7 +238,8 @@ pub trait SinkExt<Item>: Sink<Item> {
     where
         Self: Unpin + Sized,
     {
-        assert_future::<Result<(), Self::Error>, _>(Send::new(self, item))
+        todo!()
+    //    assert_future::<Result<(), Self::Error>, _>(Send::new(self, item))
     }
 
     /// A future that completes after the given item has been received
