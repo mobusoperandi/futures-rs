@@ -35,6 +35,9 @@ pub use self::flush::Flush;
 mod err_into;
 pub use self::err_into::SinkErrInto;
 
+mod into_send;
+pub use self::into_send::IntoSend;
+
 mod map_err;
 pub use self::map_err::SinkMapErr;
 
