@@ -16,15 +16,17 @@ use futures_sink::Sink;
 fn playground() {
     struct G<T>(T);
 
+    impl<T : Unpin> Unpin for G<T> {}
     struct NotUnpin<'a>(&'a i32);
-
 
     type Gn = G<i32>;
 
     fn take_unpin<T: Unpin>(unpin: T) {}
     let a = &mut 5;
     take_unpin(G(1));
-    // take_unpin(G(async{ *a + 4}));
+    let mut b = async{ *a + 4};
+    take_unpin(G(&mut b));
+    take_unpin(G(async{ *a + 4}));
     take_unpin(a);
     take_unpin(NotUnpin(&1));
 }
