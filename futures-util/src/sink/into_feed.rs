@@ -12,6 +12,17 @@ pub struct IntoFeed<Si: ?Sized, Item> {
     item: Option<Item>,
 }
 
+fn playground() {
+    struct G<T>(T);
+
+    type Gn = G<i32>;
+
+    fn take_unpin<T: Unpin>(unpin: T) {}
+
+    take_unpin(G(1));
+    take_unpin(G(Pin::new()));
+}
+
 // Pinning is never projected to children
 impl<Si: Unpin + ?Sized, Item> Unpin for IntoFeed<Si, Item> {}
 
