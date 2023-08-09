@@ -5,11 +5,11 @@ use futures_core::ready;
 use futures_core::task::{Context, Poll};
 use futures_sink::Sink;
 
-/// Future for the [`send`](super::SinkExt::send) method.
+/// Future for the [`into_send`](super::SinkExt::into_send) method.
 #[derive(Debug)]
 #[must_use = "futures do nothing unless you `.await` or poll them"]
-pub struct Send<'a, Si: ?Sized, Item> {
-    feed: Feed<'a, Si, Item>,
+pub struct IntoSend<Si, Item> {
+    feed: Feed<'static, Si, Item>,
 }
 
 // Pinning is never projected to children
