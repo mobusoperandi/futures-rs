@@ -31,8 +31,8 @@ fn playground() {
     take_unpin(NotUnpin(&1));
 }
 
-// // Pinning is never projected to children
-// impl<Si: Unpin + ?Sized, Item> Unpin for IntoFeed<Si, Item> {}
+// Pinning is never projected to children
+impl<Si: Unpin + ?Sized, Item> Unpin for IntoFeed<Si, Item> {}
 
 // impl<'a, Si: Sink<Item> + Unpin + ?Sized, Item> Feed<'a, Si, Item> {
 //     pub(super) fn new(sink: &'a mut Si, item: Item) -> Self {
